@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080f2b">
+  <meta name="description" content="Play Memory Galaxy, a magical timed memory matching game. Match cards, protect your lives, beat the clock, and explore the stars.">
+
+  <title>Memory Galaxy | Match the Stars</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <!-- TOP HEADER -->
+  <header class="topbar">
+    <a href="#" class="brand" aria-label="Memory Galaxy home">
+      <span class="brand-icon">🎮</span>
+      <span>Memory <span class="gradient-text">Galaxy</span></span>
+    </a>
+
+    <div class="top-actions">
+      <button
+        class="icon-button"
+        id="sound-toggle"
+        type="button"
+        aria-label="Toggle sound"
+        title="Toggle sound"
+      >🔊</button>
+
+      <button
+        class="icon-button"
+        id="theme-toggle"
+        type="button"
+        aria-label="Toggle light mode"
+        title="Toggle light mode"
+      >☀️</button>
+    </div>
+  </header>
+
+  <!-- MAIN APPLICATION -->
+  <main class="app-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar glass-panel">
+
+      <nav class="navigation" aria-label="Game navigation">
+
+        <button class="nav-link active" type="button" data-view="play">
+          <span class="nav-icon" aria-hidden="true">🎮</span>
+          <span>Play Game</span>
+        </button>
+
+        <button class="nav-link" type="button" data-view="levels">
+          <span class="nav-icon" aria-hidden="true">📊</span>
+          <span>Levels</span>
+        </button>
+
+        <button class="nav-link" type="button" data-view="themes">
+          <span class="nav-icon" aria-hidden="true">🎨</span>
+          <span>Themes</span>
+        </button>
+
+        <button class="nav-link" type="button" data-view="scores">
+          <span class="nav-icon" aria-hidden="true">🏆</span>
+          <span>High Scores</span>
+        </button>
+
+        <button class="nav-link" type="button" data-view="howto">
+          <span class="nav-icon" aria-hidden="true">❔</span>
+          <span>How to Play</span>
+        </button>
+
+        <button class="nav-link" type="button" data-view="settings">
+          <span class="nav-icon" aria-hidden="true">⚙️</span>
+          <span>Settings</span>
+        </button>
+
+      </nav>
+
+      <!-- SIDEBAR ILLUSTRATION -->
+      <div class="sidebar-art">
+        <img
+          src="assets/sidebar-cat.png"
+          alt="Cute cat sitting under the stars"
+        >
+
+        <p class="sidebar-quote">
+          “Same cards,<br>
+          brighter mind”
+        </p>
+
+        <span class="sidebar-heart" aria-hidden="true">♥</span>
+      </div>
+
+    </aside>
+
+    <!-- CENTER GAME AREA -->
+    <section class="game-section" id="game-view">
+
+      <div class="page-heading">
+        <p class="eyebrow">YOUR COSMIC ADVENTURE</p>
+
+        <h1>
+          Memory <span class="gradient-text">Game</span> ✨
+        </h1>
+
+        <p>
+          Find every matching pair and become a memory master.
+        </p>
+      </div>
+
+      <!-- GAME STATISTICS -->
+      <div class="stats-grid">
+
+        <article class="stat-card glass-panel">
+          <span class="stat-icon" aria-hidden="true">⏳</span>
+          <div>
+            <span class="stat-label">Time Left</span>
+            <strong id="timer" aria-live="off">01:00</strong>
+          </div>
+        </article>
+
+        <article class="stat-card glass-panel">
+          <span class="stat-icon" aria-hidden="true">🔄</span>
+          <div>
+            <span class="stat-label">Moves</span>
+            <strong id="moves">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card glass-panel">
+          <span class="stat-icon" aria-hidden="true">⭐</span>
+          <div>
+            <span class="stat-label">Pairs Found</span>
+            <strong id="pairs">0 / 4</strong>
+          </div>
+        </article>
+
+        <article class="stat-card glass-panel">
+          <span class="stat-icon" aria-hidden="true">❤️</span>
+          <div>
+            <span class="stat-label">Lives</span>
+            <strong id="lives" aria-label="3 lives remaining">❤️❤️❤️</strong>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- MEMORY BOARD -->
+      <section class="board-panel glass-panel" aria-label="Memory game board">
+
+        <div class="board-heading">
+          <h2>✨ Star Collection</h2>
+          <span class="level-pill" id="current-level">EASY</span>
+        </div>
+
+        <div
+          class="game-board"
+          id="game-board"
+          role="group"
+          aria-label="Memory cards"
+        >
+          <!-- Cards are generated by script.js -->
+        </div>
+
+        <p
+          class="game-message"
+          id="game-message"
+          role="status"
+          aria-live="polite"
+        >
+          Find matching pairs before time runs out!
+        </p>
+
+        <div class="game-actions">
+          <button
+            class="primary-button"
+            id="restart-button"
+            type="button"
+          >
+            ↻ Restart Game
+          </button>
+        </div>
+
+      </section>
+
+    </section>
+
+    <!-- RIGHT SETTINGS AREA -->
+    <aside class="settings-column">
+
+      <!-- LEVEL AND THEME SETTINGS -->
+      <section class="glass-panel settings-panel">
+
+        <h2>📊 Select Level</h2>
+
+        <div
+          class="difficulty-options"
+          role="group"
+          aria-label="Select difficulty"
+        >
+
+          <button
+            class="difficulty-button selected"
+            type="button"
+            data-level="easy"
+            aria-pressed="true"
+          >
+            Easy
+          </button>
+
+          <button
+            class="difficulty-button"
+            type="button"
+            data-level="medium"
+            aria-pressed="false"
+          >
+            Medium
+          </button>
+
+          <button
+            class="difficulty-button"
+            type="button"
+            data-level="hard"
+            aria-pressed="false"
+          >
+            Hard
+          </button>
+
+          <button
+            class="difficulty-button"
+            type="button"
+            data-level="expert"
+            aria-pressed="false"
+          >
+            Expert
+          </button>
+
+          <button
+            class="difficulty-button"
+            type="button"
+            data-level="master"
+            aria-pressed="false"
+          >
+            Master
+          </button>
+
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <h2>🎨 Select Theme</h2>
+
+        <div class="theme-grid">
+
+          <button
+            class="theme-card selected"
+            type="button"
+            data-theme="animals"
+            aria-pressed="true"
+          >
+            <span aria-hidden="true">🐱</span>
+            <span>Animals</span>
+          </button>
+
+          <button
+            class="theme-card"
+            type="button"
+            data-theme="fruits"
+            aria-pressed="false"
+          >
+            <span aria-hidden="true">🍓</span>
+            <span>Fruits</span>
+          </button>
+
+          <button
+            class="theme-card"
+            type="button"
+            data-theme="space"
+            aria-pressed="false"
+          >
+            <span aria-hidden="true">🪐</span>
+            <span>Space</span>
+          </button>
+
+          <button
+            class="theme-card"
+            type="button"
+            data-theme="nature"
+            aria-pressed="false"
+          >
+            <span aria-hidden="true">🌿</span>
+            <span>Nature</span>
+          </button>
+
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <button
+          class="primary-button restart-side-button"
+          id="sidebar-restart"
+          type="button"
+        >
+          ↻ Restart Game
+        </button>
+
+      </section>
+
+      <!-- PERSONAL BEST -->
+      <section class="glass-panel best-score-panel">
+        <h2>🏆 High Score</h2>
+
+        <p class="best-score" id="best-score">
+          No record yet
+        </p>
+
+        <p class="best-description">
+          Complete a game to set your first record!
+        </p>
+      </section>
+
+    </aside>
+
+  </main>
+
+  <!-- WIN / GAME OVER MODAL -->
+  <div class="modal-backdrop" id="win-modal" hidden>
+
+    <section
+      class="win-modal glass-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="win-title"
+    >
+
+      <div class="win-emoji" id="modal-emoji" aria-hidden="true">
+        🌟✨🎉
+      </div>
+
+      <h2 id="win-title">Galaxy conquered!</h2>
+
+      <p id="modal-description">
+        You found every matching pair. Amazing work!
+      </p>
+
+      <div class="win-stats" id="win-stats"></div>
+
+      <button
+        class="primary-button"
+        id="play-again-button"
+        type="button"
+      >
+        Play Again 🚀
+      </button>
+
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Made with 💜 and a little stardust · Memory Galaxy
+  </footer>
+
+</body>
+</html>
